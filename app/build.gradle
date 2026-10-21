@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.audora.ottrackerpro'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'com.audora.ottrackerpro'
+        minSdk 23
+        targetSdk 36
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+    signingConfigs {
+        release {
+            if (project.hasProperty('OT_STORE_FILE') &&
+                project.hasProperty('OT_STORE_PASSWORD') &&
+                project.hasProperty('OT_KEY_ALIAS') &&
+                project.hasProperty('OT_KEY_PASSWORD')) {
+                storeFile file(project.property('OT_STORE_FILE'))
+                storePassword project.property('OT_STORE_PASSWORD')
+                keyAlias project.property('OT_KEY_ALIAS')
+                keyPassword project.property('OT_KEY_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (project.hasProperty('OT_STORE_FILE')) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+}
